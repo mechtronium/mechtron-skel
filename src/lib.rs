@@ -4,6 +4,7 @@ use mechtron::error::Error;
 use mesh_portal::version::latest::entity::request::Action;
 use mesh_portal::version::latest::entity::response::ResponseCore;
 use mesh_portal::version::latest::http::HttpRequest;
+use mesh_portal::version::latest::msg::MsgRequest;
 use mesh_portal::version::latest::resource::ResourceStub;
 
 
