@@ -1,0 +1,21 @@
+[package]
+name = "{{project-name}}"
+version = "0.1.0"
+authors = ["{{username}}"]
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+mechtron= "0.2.0-rc1"
+mechtron-common= "0.2.0-rc1"
+wasm_membrane_guest = "0.2.0"
+mesh-portal = "0.2.0-rc1"
+
+[profile.release]
+# Tell `rustc` to optimize for small code size.
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
