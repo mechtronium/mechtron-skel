@@ -13,7 +13,7 @@ use mesh_portal::version::latest::resource::ResourceStub;
 #[no_mangle]
 pub extern "C" fn mechtron_init()
 {
-    /// Here we register the MyMechtronFactory for creating 'my-mechtron' Mechtrons
+    /// Here we register the MyMechtronFactory for creating '{{project-name}}' Mechtrons
     mechtron_register(Box::new(MyMechtronFactory::new()));
 }
 
@@ -30,7 +30,7 @@ impl MechtronFactory for MyMechtronFactory {
 
     /// Here we returning the very important Mechtron name which will must be referenced in the Mechtron config
     fn mechtron_name(&self) -> String {
-        "my-mechtron".to_string()
+        "{{project-name}}".to_string()
     }
 
     fn create(&self, stub: ResourceStub) -> Result<Box<dyn Mechtron>, Error> {
