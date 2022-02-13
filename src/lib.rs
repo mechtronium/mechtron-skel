@@ -7,16 +7,16 @@ use mesh_portal::version::latest::http::HttpRequest;
 use mesh_portal::version::latest::resource::ResourceStub;
 
 
-//! mechtron_init() is called after the Wasm file has been compiled by Starlane.
-//! It's most important job is to register any mechtron factories.
+/// mechtron_init() is called after the Wasm file has been compiled by Starlane.
+/// It's most important job is to register any mechtron factories.
 #[no_mangle]
 pub extern "C" fn mechtron_init()
 {
-    //! Here we register the MyMechtronFactory for creating 'my-mechtron' Mechtrons
+    /// Here we register the MyMechtronFactory for creating 'my-mechtron' Mechtrons
     mechtron_register(Box::new(MyMechtronFactory::new()));
 }
 
-//! Factory implementation for MyMechtron Mechtron
+/// Factory implementation for MyMechtron Mechtron
 pub struct MyMechtronFactory { }
 
 impl MyMechtronFactory {
@@ -27,7 +27,7 @@ impl MyMechtronFactory {
 
 impl MechtronFactory for MyMechtronFactory {
 
-    //! Here we returning the very important Mechtron name which will must be referenced in the Mechtron config
+    /// Here we returning the very important Mechtron name which will must be referenced in the Mechtron config
     fn mechtron_name(&self) -> String {
         "my-mechtron".to_string()
     }
@@ -38,8 +38,8 @@ impl MechtronFactory for MyMechtronFactory {
 }
 
 
-//! MyMechtron mechtron is an implementation of the Mechtron trait.
-//! It handles requests and produces Responses
+/// MyMechtron mechtron is an implementation of the Mechtron trait.
+/// It handles requests and produces Responses
 pub struct MyMechtron {}
 
 impl MyMechtron {
@@ -50,7 +50,7 @@ impl MyMechtron {
 
 impl Mechtron for MyMechtron  {
 
-    //! Write custom Msg request handler code here
+    /// Write custom Msg request handler code here
     fn handle_msg_request(
         &self,
         ctx: &dyn MechtronCtx,
@@ -62,7 +62,7 @@ impl Mechtron for MyMechtron  {
         ).as_str()))
     }
 
-    //! Write custom Http request handler code here
+    /// Write custom Http request handler code here
     fn handle_http_request(
         &self,
         ctx: &dyn MechtronCtx,
