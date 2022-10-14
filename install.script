@@ -1,5 +1,5 @@
 create? repo<Repo>;
 create? repo:{{project-name}}<BundleSeries>;
-publish ^[ bundle.zip ]-> repo:{{project-name}}:1.0.0;
-create! ROOT<Mechtron>{ +config=repo:{{project-name}}:1.0.0:/wasm/{{project-name}}.wasm };
+publish ^[ target/bundle.zip ]-> repo:{{project-name}}:1.0.0;
+create! ROOT<Mechtron>{ +config=repo:{{project-name}}:1.0.0:/config/my-mechtron.mechtron };
 exit;
