@@ -8,12 +8,14 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [dependencies]
-cosmic-space = "0.3.1"
 mechtron= "0.3.1"
+cosmic-space = "0.3.1"
+cosmic-macros = "0.3.1"
+lazy_static = "1.4.0"
+
 
 [profile.release]
-# Tell `rustc` to optimize for small code size.
-opt-level = "s"
+opt-level = "z"
 lto = true
 codegen-units = 1
 panic = "abort"
