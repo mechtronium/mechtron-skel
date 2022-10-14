@@ -64,7 +64,7 @@ where
     P: Platform + 'static,
 {
     fn name(&self) -> String {
-        "my-mechtron".to_string()
+        "{{project-name}}".to_string()
     }
 
     fn lifecycle(&self, skel: MechtronSkel<P>) -> Result<Box<dyn MechtronLifecycle<P>>, P::Err> {
