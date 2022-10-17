@@ -8,9 +8,9 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [dependencies]
-mechtron= "0.3.1"
-cosmic-space = "0.3.1"
-cosmic-macros = "0.3.1"
+mechtron= "0.3.2"
+cosmic-space = "0.3.2"
+cosmic-macros = "0.3.2"
 lazy_static = "1.4.0"
 
 
