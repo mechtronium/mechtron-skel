@@ -104,9 +104,9 @@ impl<P> MyMechtron<P>
 where
     P: Platform + 'static,
 {
-    #[route("Ext<Hello>")]
+    #[route("Http<Get>")]
     pub fn hello(&self, _: InCtx<'_, ()>) -> Result<Substance, P::Err> {
-        Ok(Substance::Text("Goodbye".to_string()))
+        Ok(Substance::Text("Hello, World!".to_string()))
     }
 }
 
