@@ -1,26 +1,34 @@
 #![allow(warnings)]
 
+pub mod err;
+
 #[macro_use]
 extern crate lazy_static;
 
 #[macro_use]
 extern crate cosmic_macros;
 
+
 use cosmic_macros::handler_sync;
 use cosmic_space::err::SpaceErr;
+use cosmic_space::loc::Point;
 use cosmic_space::log::{PointLogger, RootLogger};
 use cosmic_space::particle::Details;
-use cosmic_space::wave::core::CoreBounce;
 use cosmic_space::substance::Substance;
+use cosmic_space::wave::core::CoreBounce;
 use cosmic_space::wave::exchange::synch::{
     DirectedHandler, InCtx, ProtoTransmitter, ProtoTransmitterBuilder, RootInCtx,
 };
+use handlebars::{Handlebars, Renderable, Template};
 use mechtron::err::{GuestErr, MechErr};
-use mechtron::guest::GuestSkel;
+use mechtron::guest::{GuestCtx, GuestSkel};
 use mechtron::{guest, Guest, MechtronFactories, MechtronFactory, Platform};
 use mechtron::{Mechtron, MechtronLifecycle, MechtronSkel};
+use std::collections::HashMap;
 use std::marker::PhantomData;
 use std::sync::Arc;
+use crate::err::MyErr;
+use serde_json::json;
 
 #[no_mangle]
 pub extern "C" fn mechtron_guest(details: Details) -> Result<Arc<dyn mechtron::Guest>, GuestErr> {
@@ -51,11 +59,17 @@ impl MyPlatform {
     }
 }
 
-pub struct MyMechtronFactory {}
+pub struct MyMechtronFactory
+{
+    pub cache: HashMap<Point,Arc<Handlebars<'static>>>
+}
 
-impl MyMechtronFactory {
+impl MyMechtronFactory
+{
     pub fn new() -> Self {
-        Self {}
+        Self {
+            cache: HashMap::new(),
+        }
     }
 }
 
@@ -67,14 +81,17 @@ where
         "{{project-name}}".to_string()
     }
 
+    fn new(&mut self, skel: MechtronSkel<P>) -> Result<(), P::Err> {
+        Ok(())
+    }
+
     fn lifecycle(&self, skel: MechtronSkel<P>) -> Result<Box<dyn MechtronLifecycle<P>>, P::Err> {
-        Ok(Box::new(MyMechtron::restore(skel, (), ())))
+       Ok(Box::new(MyMechtron::restore(skel, (), ())))
     }
 
     fn handler(&self, skel: MechtronSkel<P>) -> Result<Box<dyn DirectedHandler>, P::Err> {
         Ok(Box::new(MyMechtron::restore(skel, (), ())))
     }
-
 }
 
 pub struct MyMechtron<P>
@@ -92,21 +109,22 @@ where
     type Cache = ();
     type State = ();
 
-    fn restore(skel: Self::Skel, _cache: Self::Cache, _state: Self::State) -> Self {
+    fn restore(skel: Self::Skel, cache: Self::Cache, _state: Self::State) -> Self {
         MyMechtron { skel }
     }
+
 }
 
 impl<P> MechtronLifecycle<P> for MyMechtron<P> where P: Platform + 'static {}
 
 #[handler_sync]
-impl<P> MyMechtron<P>
+impl <P> MyMechtron<P>
 where
     P: Platform + 'static,
 {
     #[route("Http<Get>")]
-    pub fn hello(&self, _: InCtx<'_, ()>) -> Result<Substance, P::Err> {
-        Ok(Substance::Text("Hello, World!".to_string()))
+    pub fn hello(&self, ctx: InCtx<'_, ()>) -> Result<Substance, P::Err> {
+        Ok(Substance::Text("Hello World".to_string()))
     }
 }
 
