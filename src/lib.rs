@@ -19,7 +19,6 @@ use cosmic_space::wave::core::CoreBounce;
 use cosmic_space::wave::exchange::synch::{
     DirectedHandler, InCtx, ProtoTransmitter, ProtoTransmitterBuilder, RootInCtx,
 };
-use handlebars::{Handlebars, Renderable, Template};
 use mechtron::err::{GuestErr, MechErr};
 use mechtron::guest::{GuestCtx, GuestSkel};
 use mechtron::{guest, Guest, MechtronFactories, MechtronFactory, Platform};
@@ -27,8 +26,6 @@ use mechtron::{Mechtron, MechtronLifecycle, MechtronSkel};
 use std::collections::HashMap;
 use std::marker::PhantomData;
 use std::sync::Arc;
-use crate::err::MyErr;
-use serde_json::json;
 
 #[no_mangle]
 pub extern "C" fn mechtron_guest(details: Details) -> Result<Arc<dyn mechtron::Guest>, GuestErr> {
@@ -60,9 +57,7 @@ impl MyPlatform {
 }
 
 pub struct MyMechtronFactory
-{
-    pub cache: HashMap<Point,Arc<Handlebars<'static>>>
-}
+{ }
 
 impl MyMechtronFactory
 {
