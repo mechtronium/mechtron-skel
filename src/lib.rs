@@ -1,7 +1,5 @@
 #![allow(warnings)]
 
-pub mod err;
-
 #[macro_use]
 extern crate lazy_static;
 
@@ -63,7 +61,6 @@ impl MyMechtronFactory
 {
     pub fn new() -> Self {
         Self {
-            cache: HashMap::new(),
         }
     }
 }
